@@ -1,6 +1,6 @@
 import React from "react";
 import { StudentInfo } from "../types";
-import { User, Mail, GraduationCap } from "lucide-react";
+import { User, Mail, GraduationCap, Mars, Venus } from "lucide-react";
 
 interface StudentProfileFormProps {
   info: StudentInfo;
@@ -29,6 +29,10 @@ export default function StudentProfileForm({
 
   const setLetra = (letra: StudentInfo["letra"]) => {
     onChange({ ...info, letra });
+  };
+
+  const setGenero = (genero: StudentInfo["genero"]) => {
+    onChange({ ...info, genero });
   };
 
   const cursos: StudentInfo["curso"][] = ["1 ESO", "2 ESO", "3 ESO", "4 ESO", "1 BACH"];
@@ -123,6 +127,45 @@ export default function StudentProfileForm({
             {errors.email && (
               <span className="text-[10px] font-medium text-rose-600 block mt-1">
                 {errors.email}
+              </span>
+            )}
+          </div>
+
+          {/* Gender (Género) Input */}
+          <div className="group pt-2">
+            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3 block">
+              Género del Alumno / Alumna
+            </label>
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                type="button"
+                onClick={() => setGenero("masculino")}
+                className={`border-2 py-3 px-4 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                  info.genero === "masculino"
+                    ? "border-sky-500 bg-sky-50 text-sky-950 shadow-sm font-black scale-[1.01]"
+                    : "border-slate-100 text-slate-600 hover:bg-slate-50 hover:border-slate-200"
+                }`}
+              >
+                <Mars className={`w-4 h-4 ${info.genero === "masculino" ? "text-sky-600" : "text-slate-400"}`} />
+                <span>Masculino</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setGenero("femenino")}
+                className={`border-2 py-3 px-4 rounded-2xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                  info.genero === "femenino"
+                    ? "border-rose-400 bg-rose-50 text-rose-950 shadow-sm font-black scale-[1.01]"
+                    : "border-slate-100 text-slate-650 hover:bg-slate-50 hover:border-slate-200"
+                }`}
+              >
+                <Venus className={`w-4 h-4 ${info.genero === "femenino" ? "text-rose-500" : "text-slate-400"}`} />
+                <span>Femenino</span>
+              </button>
+            </div>
+            {errors.genero && (
+              <span className="text-[10px] font-medium text-rose-600 block mt-2">
+                {errors.genero}
               </span>
             )}
           </div>

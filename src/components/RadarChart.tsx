@@ -39,8 +39,8 @@ export default function RadarChart({ scores }: RadarChartProps) {
     ];
   }, [scores]);
 
-  // Generate grid lines representing score zones (2, 4, 6, 8, 10)
-  const gridRings = [2, 4, 6, 8, 10];
+  // Generate grid lines representing score zones (2, 4, 6, 8, 10) in reverse order (10 down to 2) to draw outside-in
+  const gridRings = [10, 8, 6, 4, 2];
 
   const gridPolygons = gridRings.map((val) => {
     const r = (val / 10) * maxRadius;
@@ -53,6 +53,18 @@ export default function RadarChart({ scores }: RadarChartProps) {
       .join(" ");
     return { value: val, points: pointsStr, r };
   });
+
+  // Helper inside RadarChart to color each level
+  const getRingColor = (val: number) => {
+    switch (val) {
+      case 10: return { fill: "rgba(16, 185, 129, 0.08)", stroke: "#10b981", name: "Sobresaliente" };
+      case 8:  return { fill: "rgba(14, 165, 233, 0.08)", stroke: "#0284c7", name: "Notable" };
+      case 6:  return { fill: "rgba(245, 158, 11, 0.06)", stroke: "#f59e0b", name: "Bien / Aprobado" };
+      case 4:  return { fill: "rgba(249, 115, 22, 0.06)", stroke: "#f97316", name: "Suficiente" };
+      case 2:  return { fill: "rgba(239, 68, 68, 0.07)", stroke: "#ef4444", name: "Insuficiente" };
+      default: return { fill: "none", stroke: "#e2e8f0", name: "" };
+    }
+  };
 
   // Calculate student score path vertices
   const studentPathPoints = useMemo(() => {
@@ -72,10 +84,10 @@ export default function RadarChart({ scores }: RadarChartProps) {
         Ficha Gráfica
       </span>
       <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight text-center font-display mb-1">
-        Rendimiento General
+        Diana de Rendimiento
       </h3>
       <p className="text-xs text-slate-500 text-center mb-6 font-medium">
-        Representación de los 8 ejes de Educación Física
+        Representación visual por zonas de condición física
       </p>
 
       {/* SVG Container wrapping the radar chart */}
@@ -85,27 +97,30 @@ export default function RadarChart({ scores }: RadarChartProps) {
           className="w-full h-full select-none"
           id="radar-svg"
         >
-          {/* Concentric octagons for grid levels */}
-          {gridPolygons.map((ring) => (
-            <g key={ring.value}>
-              <polygon
-                points={ring.points}
-                fill="none"
-                stroke="#e2e8f0"
-                strokeWidth="1"
-                strokeDasharray={ring.value === 10 ? "none" : "2,2"}
-              />
-              {/* Score indicators along the vertical Axis (bottom branch or customized) */}
-              <text
-                x={center}
-                y={center - ring.r + 4}
-                textAnchor="middle"
-                className="text-[10px] font-semibold text-slate-400 fill-slate-400"
-              >
-                {ring.value}
-              </text>
-            </g>
-          ))}
+          {/* Concentric octagons for grid levels with respective zone colors */}
+          {gridPolygons.map((ring) => {
+            const style = getRingColor(ring.value);
+            return (
+              <g key={ring.value}>
+                <polygon
+                  points={ring.points}
+                  fill={style.fill}
+                  stroke={style.stroke}
+                  strokeWidth="1.5"
+                  className="transition-all duration-300"
+                />
+                {/* Score indicators along the vertical Axis */}
+                <text
+                  x={center}
+                  y={center - ring.r + 4}
+                  textAnchor="middle"
+                  className="text-[10px] font-extrabold fill-slate-700"
+                >
+                  {ring.value}
+                </text>
+              </g>
+            );
+          })}
 
           {/* Draw axis dividing lines */}
           {axes.map((axis, i) => {
@@ -118,18 +133,19 @@ export default function RadarChart({ scores }: RadarChartProps) {
                 y1={center}
                 x2={endX}
                 y2={endY}
-                stroke="#cbd5e1"
-                strokeWidth="1"
+                stroke="#94a3b8"
+                strokeWidth="0.75"
+                strokeDasharray="2,2"
               />
             );
           })}
 
-          {/* Draw student actual score polygon filled layer */}
+          {/* Draw student actual score polygon filled layer (Indigo / Purple Glowing) */}
           <polygon
             points={studentPathPoints}
-            fill="rgba(30, 41, 59, 0.25)"
-            stroke="#0f172a"
-            strokeWidth="2.5"
+            fill="rgba(79, 70, 229, 0.3)"
+            stroke="#4f46e5"
+            strokeWidth="3"
             strokeLinejoin="round"
             className="transition-all duration-300 ease-out"
           />
@@ -144,10 +160,10 @@ export default function RadarChart({ scores }: RadarChartProps) {
                 <circle
                   cx={x}
                   cy={y}
-                  r="4.5"
+                  r="5"
                   fill="#ffffff"
-                  stroke="#0f172a"
-                  strokeWidth="2"
+                  stroke="#4f46e5"
+                  strokeWidth="2.5"
                   className="transition-all duration-300 ease-out"
                 />
                 
@@ -157,7 +173,7 @@ export default function RadarChart({ scores }: RadarChartProps) {
                     x={x}
                     y={y - 8}
                     textAnchor="middle"
-                    className="text-[10px] font-bold text-[#0f172a] fill-[#0f172a]"
+                    className="text-[10px] font-black text-indigo-950 fill-indigo-950"
                   >
                     {axis.score.toFixed(1).replace(".0", "")}
                   </text>
@@ -181,7 +197,7 @@ export default function RadarChart({ scores }: RadarChartProps) {
                 x={textX}
                 y={textY}
                 textAnchor="middle"
-                className="text-[11px] font-medium text-slate-700 fill-slate-600 bg-white"
+                className="text-[11px] font-extrabold text-slate-800 fill-slate-800 bg-white"
                 style={{ fontFamily: "var(--font-sans)" }}
               >
                 {axis.name}
@@ -192,14 +208,29 @@ export default function RadarChart({ scores }: RadarChartProps) {
       </div>
       
       {/* Legend and performance indicators */}
-      <div className="mt-2 text-center flex gap-4 text-xs">
-        <div className="flex items-center gap-1.5 text-slate-600 font-medium">
-          <span className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-slate-950 inline-block"></span>
-          Tu Rendimiento
+      <div className="mt-4 w-full border-t border-slate-100 pt-4">
+        <div className="flex justify-center items-center gap-2 mb-3 text-xs">
+          <span className="w-3 h-3 rounded-full bg-indigo-600/35 border border-indigo-600 inline-block"></span>
+          <span className="text-slate-800 font-extrabold">Tu Rendimiento Registrado</span>
         </div>
-        <div className="flex items-center gap-1.5 text-slate-400">
-          <span className="w-2.5 h-1 border-t-2 border-dashed border-slate-200 inline-block"></span>
-          Escala de 2 a 10
+        
+        {/* Colorful target zones explanation */}
+        <div className="grid grid-cols-5 gap-1.5 text-[9px] font-bold text-center">
+          <div className="bg-emerald-50 text-emerald-800 border-2 border-emerald-100 py-1 px-1 rounded-lg">
+            <span>[9-10] Exc</span>
+          </div>
+          <div className="bg-sky-50 text-sky-800 border-2 border-sky-100 py-1 px-1 rounded-lg">
+            <span>[7-8] Not</span>
+          </div>
+          <div className="bg-amber-50 text-amber-800 border-2 border-amber-100 py-1 px-1 rounded-lg">
+            <span>[5-6] Bien</span>
+          </div>
+          <div className="bg-orange-50 text-orange-850 border-2 border-orange-100 py-1 px-1 rounded-lg">
+            <span>[3-4] Suf</span>
+          </div>
+          <div className="bg-rose-50 text-rose-800 border-2 border-rose-100 py-1 px-1 rounded-lg">
+            <span>[0-2] Ins</span>
+          </div>
         </div>
       </div>
     </div>

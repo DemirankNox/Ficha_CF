@@ -53,9 +53,9 @@ export default function TestCard({
           </div>
           
           {selectedOptionValue ? (
-            <div className={`px-2.5 py-1.5 rounded-full text-xs font-black border-2 ${getBadgeColor(points)} flex items-center gap-1 shrink-0`}>
+            <div className={`px-2.5 py-1.5 rounded-full text-xs font-black border-2 bg-emerald-50 text-emerald-800 border-emerald-150 flex items-center gap-1 shrink-0`}>
               <CheckCircle className="w-3.5 h-3.5" />
-              {points} Pts
+              {selectedOptionValue === "no_realizado" ? "No realizado" : "Registrado"}
             </div>
           ) : (
             <div className="px-2.5 py-1.5 bg-slate-50 text-slate-400 border-2 border-slate-100 rounded-full text-[10px] font-bold uppercase tracking-wider shrink-0">
@@ -95,12 +95,12 @@ export default function TestCard({
       </div>
 
       {/* Options clickable grid */}
-      <div className="p-6 bg-slate-50/50">
-        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-3.5">
+      <div className="p-4 bg-slate-50/50">
+        <label className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2">
           Marca Obtenida (Haz clic para registrar)
         </label>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
           {test.options.map((option) => {
             const isSelected = selectedOptionValue === option.value;
             return (
@@ -108,42 +108,33 @@ export default function TestCard({
                 key={option.value}
                 type="button"
                 onClick={() => onSelectOption(option)}
-                className={`text-left p-3.5 rounded-2xl border-2 transition-all flex justify-between items-center group cursor-pointer ${
+                className={`text-center py-2 px-3 rounded-xl border transition-all cursor-pointer flex items-center justify-center ${
                   isSelected
-                    ? "bg-slate-900 border-slate-950 text-white shadow-sm font-black scale-[1.01]"
-                    : "bg-white border-slate-150 text-slate-700 hover:border-slate-300 hover:bg-slate-50"
+                    ? "bg-slate-900 border-slate-950 text-white shadow-sm font-extrabold"
+                    : "bg-white border-slate-150 text-slate-700 hover:border-slate-300 hover:bg-slate-50 text-xs font-semibold"
                 }`}
               >
-                <span className="text-xs font-bold leading-snug pr-2">
+                <span className="text-xs leading-tight">
                   {option.label}
-                </span>
-                <span
-                  className={`text-[10px] font-bold font-mono px-2 py-0.5 rounded-lg ${
-                    isSelected
-                      ? "bg-white/20 text-white"
-                      : "bg-slate-100 text-slate-600 group-hover:bg-slate-200"
-                  }`}
-                >
-                  {option.points} pts
                 </span>
               </button>
             );
           })}
         </div>
 
-        <div className="mt-4 pt-4 border-t border-slate-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-          <span className="text-[11px] text-slate-500 font-medium">¿No has podido realizar este ejercicio? Marca esta opción:</span>
+        <div className="mt-3 pt-3 border-t border-slate-150 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1.5">
+          <span className="text-[10px] text-slate-500 font-medium">¿Falta este ejercicio? Márcalo aquí:</span>
           <button
             type="button"
             onClick={() => onSelectOption({ value: "no_realizado", points: 0, label: "No realizado" })}
-            className={`w-full sm:w-auto px-4 py-2 rounded-xl border-2 transition-all flex items-center justify-center gap-2 text-xs font-black cursor-pointer ${
+            className={`w-full sm:w-auto px-2.5 py-1 rounded-lg border transition-all flex items-center justify-center gap-1.5 text-[11px] font-bold cursor-pointer ${
               selectedOptionValue === "no_realizado"
-                ? "bg-rose-600 border-rose-700 text-white shadow-sm scale-[1.01]"
+                ? "bg-rose-600 border-rose-700 text-white shadow-sm"
                 : "bg-rose-50/50 border-rose-100 text-rose-700 hover:border-rose-200 hover:bg-rose-50"
             }`}
           >
             <span>No realizado</span>
-            {selectedOptionValue === "no_realizado" && <span>✓</span>}
+            {selectedOptionValue === "no_realizado" && <span className="text-[10px]">✓</span>}
           </button>
         </div>
       </div>

@@ -35,7 +35,7 @@ async function startServer() {
         });
       }
 
-      const { nombre, apellidos, curso, letra, email: studentEmail } = student;
+      const { nombre, apellidos, curso, letra, email: studentEmail, genero } = student;
 
       if (!nombre || !apellidos || !curso || !letra || !studentEmail) {
         return res.status(400).json({
@@ -69,6 +69,7 @@ async function startServer() {
             
             DATOS DEL ALUMNO:
             - Nombre: ${nombre} ${apellidos}
+            - Género: ${genero || "No especificado"}
             - Curso: ${curso} - Grupo: ${letra}
             - Nota media de aptitud: ${averageScore} / 10
             
@@ -79,7 +80,7 @@ async function startServer() {
             "${reflection || "El alumno no proporcionó reflexión."}"
             
             INSTRUCCIONES PARA LA RESPUESTA:
-            1. Saluda cordialmente al estudiante llamándole por su nombre (${nombre}).
+            1. Saluda cordialmente al estudiante llamándole por su nombre (${nombre}). Adapta tu mensaje gramaticalmente al género del alumno si se especifica como "${genero}" (por ejemplo, usando "estimado alumno" para masculino o "estimada alumna" para femenino).
             2. Destaca cuál o cuáles han sido sus mayores fortalezas de forma positiva y técnica (fuerza de piernas, resistencia aeróbica, velocidad, flexibilidad, etc.).
             3. Identifica con tacto y optimismo de 1 a 2 áreas débiles en las que puede mejorar, ofreciendo un consejo práctico escolar simple para cada una.
             4. Revisa la reflexión personal del alumno. Valora si sus expectativas se ajustan a su desempeño real, y dale un comentario técnico constructivo felicitando o reconduciendo su autocrítica.
@@ -166,7 +167,9 @@ async function startServer() {
                   </tr>
                   <tr>
                     <td style="padding: 4px 0; color: #64748b;">Email Alumno:</td>
-                    <td style="padding: 4px 0; font-weight: 500; color: #0f172a;" colspan="3">${studentEmail}</td>
+                    <td style="padding: 4px 0; font-weight: 500; color: #0f172a;">${studentEmail}</td>
+                    <td style="padding: 4px 0; color: #64748b; text-align: right;">Género:</td>
+                    <td style="padding: 4px 0; font-weight: 600; color: #0f172a; text-align: right; text-transform: capitalize;">${genero || "No especificado"}</td>
                   </tr>
                 </table>
               </div>

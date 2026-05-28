@@ -4,6 +4,7 @@ export interface StudentInfo {
   curso: '1 ESO' | '2 ESO' | '3 ESO' | '4 ESO' | '1 BACH';
   letra: 'A' | 'B' | 'C' | 'D';
   email: string;
+  genero: 'masculino' | 'femenino' | '';
 }
 
 export interface MetricOption {

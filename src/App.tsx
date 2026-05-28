@@ -31,6 +31,7 @@ export default function App() {
     curso: "1 ESO",
     letra: "A",
     email: "",
+    genero: "",
   });
 
   // Reflection and collapsed sections states
@@ -139,6 +140,10 @@ export default function App() {
       errorList.email = "El correo del estudiante es obligatorio.";
     } else if (!emailRegex.test(studentInfo.email)) {
       errorList.email = "Introduce un correo válido.";
+    }
+
+    if (!studentInfo.genero) {
+      errorList.genero = "Debes seleccionar tu género (femenino o masculino).";
     }
     
     // Validate forced student reflection
@@ -266,22 +271,32 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 pb-16 font-sans antialiased">
-      {/* HEADER SECTION */}
-      <header className="max-w-6xl mx-auto px-4 pt-8 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 print:hidden">
-        <div>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 uppercase">
-            Rendimiento Físico
-          </h1>
-          <p className="text-slate-500 font-medium mt-1 text-xs sm:text-sm">
-            Departamento de Educación Física — IES Deportes
-          </p>
-        </div>
-        <div className="text-left border-l-4 border-blue-600 pl-4">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Profesor asignado</p>
-          <p className="text-xs sm:text-sm font-semibold text-slate-700 font-mono">{TEACHER_EMAIL}</p>
-        </div>
-      </header>
+    <div className="min-h-screen bg-slate-50 relative pb-16 font-sans antialiased overflow-x-hidden">
+      {/* Immersive Physical Fitness & Athletics Background Wallpaper */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.06] pointer-events-none mix-blend-multiply z-0 print:hidden" 
+        style={{ 
+          backgroundImage: "url('https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=1600')" 
+        }}
+      ></div>
+      
+      {/* Content wrapper ensuring readable interaction on top of background */}
+      <div className="relative z-10">
+        {/* HEADER SECTION */}
+        <header className="max-w-6xl mx-auto px-4 pt-8 pb-4 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6 print:hidden">
+          <div>
+            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 uppercase">
+              Condición Física
+            </h1>
+            <p className="text-slate-500 font-medium mt-1 text-xs sm:text-sm">
+              Departamento de Educación Física — IES Río Trubia
+            </p>
+          </div>
+          <div className="text-left border-l-4 border-blue-600 pl-4">
+            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Profesor asignado</p>
+            <p className="text-xs sm:text-sm font-semibold text-slate-700 font-mono">{TEACHER_EMAIL}</p>
+          </div>
+        </header>
 
       {/* INFORMATIONAL BLOCK */}
       <main className="max-w-6xl mx-auto px-4 mt-6">
@@ -462,29 +477,8 @@ export default function App() {
                       </span>
                     </div>
                   </div>
-
-                  {/* HTML code preview fallback copyable */}
-                  <div className="bg-white rounded-2xl border border-slate-200 p-5 space-y-2.5">
-                    <div className="flex justify-between items-center border-b pb-3 border-slate-100">
-                      <div>
-                        <h4 className="font-bold text-slate-800 text-sm">Vista Previa del Email Generado</h4>
-                        <p className="text-[10px] text-slate-400">Puedes copiar esta plantilla HTML para enviarla manualmente.</p>
-                      </div>
-                      <button
-                        onClick={copyToClipboard}
-                        className="bg-slate-100 text-slate-700 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
-                      >
-                        {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
-                        {copied ? "¡Copiado!" : "Copiar Código HTML"}
-                      </button>
-                    </div>
-
-                    <div className="max-h-[350px] overflow-y-auto rounded-lg border border-slate-100 bg-slate-50/50 p-4 text-[11px] font-mono text-slate-600 select-all whitespace-pre-wrap">
-                      {reportResult.emailHtml}
-                    </div>
-                  </div>
-
                 </div>
+
               </div>
             </div>
 
@@ -495,25 +489,35 @@ export default function App() {
               {/* Form Content Panel */}
               <div className="space-y-6">
                 
-                {/* Introduction Note: Bento Instruction block */}
-                <div className="bg-slate-900 text-slate-100 rounded-3xl p-6 md:p-8 shadow-xl relative overflow-hidden">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
-                      Instrucciones
-                    </span>
-                    <span className="text-slate-400 font-mono text-[10px] font-bold uppercase tracking-wider">Ayuda Guía</span>
+                {/* Introduction Note: Bento Instruction block with high quality sports illustration */}
+                <div className="bg-slate-900 text-slate-150 rounded-3xl overflow-hidden shadow-xl relative grid grid-cols-1 md:grid-cols-12 items-stretch min-h-[220px]">
+                  <div className="p-6 md:p-8 md:col-span-8 flex flex-col justify-center space-y-3 z-10">
+                    <div className="flex items-center gap-2">
+                      <span className="bg-blue-600 text-white text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                        Instrucciones
+                      </span>
+                      <span className="text-slate-400 font-mono text-[10px] font-bold uppercase tracking-wider">Ayuda Guía</span>
+                    </div>
+                    <h4 className="font-extrabold text-white text-xl leading-snug font-display uppercase tracking-tight">
+                      Ficha de autoevaluación de la condición física
+                    </h4>
+                    <p className="text-xs text-slate-300 leading-relaxed font-normal">
+                      Registra tu rendimiento en cada uno de los 10 tests obligatorios de condición física. El sistema calcula automáticamente tu calificación de de <strong>2 a 10 puntos</strong> según las escalas oficiales de resistencia, fuerza, flexibilidad y saltos para Secundaria y Bachillerato.
+                    </p>
+                    <p className="text-[10px] text-slate-400 font-normal">
+                      Nota: Al finalizar, el sistema generará un informe de progreso con retroalimentación cualitativa asistida por IA y enviará un reporte completo al buzón del alumno y profesor.
+                    </p>
                   </div>
-                  <h4 className="font-extrabold text-white text-xl leading-snug font-display mb-3 uppercase tracking-tight">
-                    Ficha de Evaluación Externa
-                  </h4>
-                  <p className="text-xs text-slate-300 leading-relaxed font-medium">
-                    Mide tu rendimiento en cada uno de los 10 tests obligatorios. El sistema calcula automáticamente tu calificación de de <strong>2 a 10 puntos</strong> según las escalas oficiales nacionales de resistencia, fuerza, flexibilidad y saltos.
-                  </p>
-                  <p className="text-xs text-slate-400 mt-2 font-medium">
-                    Nota: Los resultados son informativos y orientativos de tu evolución de salud general.
-                  </p>
-                  {/* Decorative ambient color blur */}
-                  <div className="absolute -bottom-10 -right-10 w-36 h-36 bg-blue-600 rounded-full opacity-25 blur-3xl"></div>
+                  {/* High quality sports action image */}
+                  <div className="md:col-span-4 relative min-h-[140px] md:min-h-full">
+                    <img 
+                      src="https://images.unsplash.com/photo-1502224562085-639556652f33?auto=format&fit=crop&q=80&w=800" 
+                      alt="Estudiantes entrenando en atletismo" 
+                      className="absolute inset-0 w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t md:bg-gradient-to-r from-slate-900 via-slate-900/10 to-transparent"></div>
+                  </div>
                 </div>
 
                 {/* Profile form section - already redesigned in StudentProfileForm */}
@@ -567,6 +571,24 @@ export default function App() {
                       
                       {openSections.flex_saltos && (
                         <div className="p-6 bg-white border-t border-slate-100 space-y-4">
+                          {/* Banner de Categoría Flexibilidad y Saltos */}
+                          <div className="h-28 rounded-2xl overflow-hidden relative mb-2">
+                            <img 
+                              src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=800" 
+                              alt="Flexibilidad y Saltos" 
+                              className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/40 to-transparent flex items-center p-5">
+                              <div>
+                                <span className="bg-indigo-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-1 inline-block">
+                                  Bloque 01
+                                </span>
+                                <h5 className="text-white font-extrabold text-sm uppercase tracking-tight">Potencia y Elasticidad</h5>
+                                <p className="text-slate-200 text-[11px] mt-0.5 max-w-md font-sans">Evaluación del rango articular óptimo, flexión del tronco y la fuerza explosiva en tus extremidades superiores e inferiores.</p>
+                              </div>
+                            </div>
+                          </div>
                           {PHYSICAL_TESTS.filter(t => ['flexibilidad', 'salto_vertical', 'salto_horizontal', 'lanzamiento_balon'].includes(t.id)).map((test) => (
                             <TestCard
                               key={test.id}
@@ -620,6 +642,24 @@ export default function App() {
                       
                       {openSections.fuerza && (
                         <div className="p-6 bg-white border-t border-slate-100 space-y-4">
+                          {/* Banner de Categoría Fuerza */}
+                          <div className="h-28 rounded-2xl overflow-hidden relative mb-2">
+                            <img 
+                              src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=800" 
+                              alt="Fuerza Resistencia" 
+                              className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/40 to-transparent flex items-center p-5">
+                              <div>
+                                <span className="bg-blue-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-1 inline-block">
+                                  Bloque 02
+                                </span>
+                                <h5 className="text-white font-extrabold text-sm uppercase tracking-tight">Fuerza Muscular</h5>
+                                <p className="text-slate-200 text-[11px] mt-0.5 max-w-md font-sans">Soporte y resistencia contra resistencia mecánica: flexiones de brazos, fuerza isométrica abdominal, piernas y coordinación general.</p>
+                              </div>
+                            </div>
+                          </div>
                           {PHYSICAL_TESTS.filter(t => ['flexiones', 'abdominales', 'sentadillas', 'burpees'].includes(t.id)).map((test) => (
                             <TestCard
                               key={test.id}
@@ -673,6 +713,24 @@ export default function App() {
                       
                       {openSections.cardio && (
                         <div className="p-6 bg-white border-t border-slate-100 space-y-4">
+                          {/* Banner de Categoría Cardio */}
+                          <div className="h-28 rounded-2xl overflow-hidden relative mb-2">
+                            <img 
+                              src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&q=80&w=800" 
+                              alt="Resistencia y Velocidad" 
+                              className="w-full h-full object-cover"
+                              referrerPolicy="no-referrer"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/40 to-transparent flex items-center p-5">
+                              <div>
+                                <span className="bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider mb-1 inline-block">
+                                  Bloque 03
+                                </span>
+                                <h5 className="text-white font-extrabold text-sm uppercase tracking-tight">Estamina y Potencia Aeróbica</h5>
+                                <p className="text-slate-200 text-[11px] mt-0.5 max-w-md font-sans">Capacidad adaptativa del sistema respiratorio y cardiovascular: resistencia a ritmo sostenido y velocidad de reacción en carrera sprint.</p>
+                              </div>
+                            </div>
+                          </div>
                           {PHYSICAL_TESTS.filter(t => ['cooper', 'velocidad'].includes(t.id)).map((test) => (
                             <TestCard
                               key={test.id}
@@ -904,6 +962,7 @@ export default function App() {
           </p>
         </div>
       </footer>
+      </div>
     </div>
   );
 }
