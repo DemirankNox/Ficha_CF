@@ -1,0 +1,8 @@
+{
+  "name": "Ficha de Condición Física",
+  "description": "Formulario web para que los alumnos de Educación Física registren los resultados de sus test físicos y reciban un informe detallado por correo electrónico.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
